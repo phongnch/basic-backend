@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Put,
-  Delete,
-  Body,
-  Param,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ItemsService } from './items.service';
 import { CreateItemDto } from './dto/create-item.dto';
 
@@ -19,23 +11,23 @@ export class ItemsController {
     return this.itemsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.itemsService.findOne(id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.itemsService.findOne(id);
+  // }
 
   @Post()
   create(@Body() createItemDto: CreateItemDto) {
     return this.itemsService.create(createItemDto);
   }
 
-  @Put(':id')
-  update(@Param('id') id: string, @Body() createItemDto: CreateItemDto) {
-    return this.itemsService.update(id, createItemDto);
-  }
+  // @Put(':id')
+  // update(@Param('id') id: string, @Body() createItemDto: CreateItemDto) {
+  //   return this.itemsService.update(id, createItemDto);
+  // }
 
-  @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.itemsService.delete(id);
-  }
+  // @Delete(':id')
+  // delete(@Param('id') id: string) {
+  //   return this.itemsService.delete(id);
+  // }
 }

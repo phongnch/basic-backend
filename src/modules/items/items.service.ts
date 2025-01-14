@@ -1,33 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Item } from './schemas/item.schema';
+import { Item } from '@prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateItemDto } from './dto/create-item.dto';
 
 @Injectable()
 export class ItemsService {
-  constructor(@InjectModel(Item.name) private itemModel: Model<Item>) {}
+  constructor(private prisma: PrismaService) {}
 
   async findAll(): Promise<Item[]> {
-    return this.itemModel.find().exec();
-  }
+    const items = await this.prisma.item.findMany();
 
-  async findOne(id: string): Promise<Item> {
-    return this.itemModel.findById(id).exec();
+    return items;
   }
 
   async create(createItemDto: CreateItemDto): Promise<Item> {
-    const newItem = new this.itemModel(createItemDto);
-    return newItem.save();
-  }
-
-  async update(id: string, createItemDto: CreateItemDto): Promise<Item> {
-    return this.itemModel
-      .findByIdAndUpdate(id, createItemDto, { new: true })
-      .exec();
-  }
-
-  async delete(id: string): Promise<Item> {
-    return this.itemModel.findByIdAndDelete(id).exec();
+    const newItem = await this.prisma.item.create({
+      data: {
+        name: createItemDto.name,
+        description: createItemDto.description,
+      },
+    });
+    return newItem;
   }
 }

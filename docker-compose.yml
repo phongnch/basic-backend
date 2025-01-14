@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: demo-backend
+    environment:
+      POSTGRES_USER: phongnch
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: demo-backend
+    ports:
+      - "5432:5432"
+    volumes:
+      - demo-backend-data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  demo-backend-data:
