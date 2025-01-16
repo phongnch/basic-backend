@@ -14,13 +14,23 @@ datasource db {
 }
 
 model Item {
-  id    Int    @id @default(autoincrement())
-  name  String
+  id          Int      @id @default(autoincrement())
+  name        String
   description String
   createdDate DateTime @default(now())
   updatedDate DateTime @updatedAt
-  phone String @default("")
+  phone       String   @default("")
+  User        User?    @relation(fields: [userId], references: [id])
+  userId      Int?     @map("owner")
 
   @@map("item")
 }
 
+model User {
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  password String
+  items    Item[]
+
+  @@map("user")
+}
